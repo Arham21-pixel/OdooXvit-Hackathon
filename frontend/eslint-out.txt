@@ -1,0 +1,30 @@
+﻿
+C:\Users\ADMIN\Documents\ODOO HACK\frontend\app\(auth)\login\page.jsx
+  172:18  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\ADMIN\Documents\ODOO HACK\frontend\app\(dashboard)\admin\rules\page.jsx
+  83:50  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\ADMIN\Documents\ODOO HACK\frontend\app\(dashboard)\employee\page.jsx
+  94:71  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\ADMIN\Documents\ODOO HACK\frontend\app\(dashboard)\manager\page.jsx
+  77:78  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\ADMIN\Documents\ODOO HACK\frontend\app\page.js
+  107:84  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  107:91  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\ADMIN\Documents\ODOO HACK\frontend\components\approval\RuleBuilder.jsx
+  147:102  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\ADMIN\Documents\ODOO HACK\frontend\components\expense\OcrUpload.jsx
+  119:14  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\ADMIN\Documents\ODOO HACK\frontend\components\expense\StatusTracker.jsx
+  102:112  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  102:127  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+Γ£û 10 problems (9 errors, 1 warning)
+
+
