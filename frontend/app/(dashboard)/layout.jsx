@@ -168,7 +168,7 @@ export default function DashboardLayout({ children }) {
             
             <div className="hidden sm:block animate-fade-in opacity-0" style={{ animationDelay: '0.1s' }}>
               <h2 className="font-display text-3xl font-bold text-dark tracking-tight leading-none mb-1">
-                Good morning, {user.name.split(' ')[0]}
+                Good morning, {(user.name || "User").split(' ')[0]}
               </h2>
               <p className="text-xs font-bold text-muted uppercase tracking-widest font-body">{dateStr}</p>
             </div>
