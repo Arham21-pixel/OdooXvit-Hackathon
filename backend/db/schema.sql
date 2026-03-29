@@ -17,6 +17,7 @@ CREATE TABLE users (
   role user_role DEFAULT 'employee',
   manager_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
   is_manager_approver BOOLEAN DEFAULT false,
+  deleted_at TIMESTAMP,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
