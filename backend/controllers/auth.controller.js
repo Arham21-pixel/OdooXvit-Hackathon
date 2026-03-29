@@ -64,6 +64,8 @@ exports.signup = async (req, res) => {
     // 6. Sign JWT
     const payload = {
       id: user.id,
+      name: user.name,
+      email: user.email,
       role: user.role,
       company_id: user.company_id,
     };
@@ -101,6 +103,8 @@ exports.login = async (req, res) => {
 
     const payload = {
       id: user.id,
+      name: user.name,
+      email: user.email,
       role: user.role,
       company_id: user.company_id,
     };
