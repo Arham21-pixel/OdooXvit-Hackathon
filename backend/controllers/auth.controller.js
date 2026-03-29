@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator');
 const db = require('../config/db');
 const { sendSuccess, sendError } = require('../utils/response');
 const { signToken } = require('../utils/jwt');
-const axios = require('axios');
+const countriesUtil = require('../utils/countries');
 
 exports.signup = async (req, res) => {
   const errors = validationResult(req);
@@ -21,23 +21,7 @@ exports.signup = async (req, res) => {
     }
 
     // 2. Fetch country currency
-    let currency_code = 'USD'; // default
-    try {
-      const resp = await axios.get('https://restcountries.com/v3.1/all?fields=name,currencies');
-      const countries = resp.data;
-      
-      const foundCountry = countries.find(
-        (c) => c.name.common.toLowerCase() === country.toLowerCase() || 
-               (c.name.official && c.name.official.toLowerCase() === country.toLowerCase())
-      );
-
-      if (foundCountry && foundCountry.currencies) {
-        currency_code = Object.keys(foundCountry.currencies)[0];
-      }
-    } catch (err) {
-      console.error('Error fetching country data:', err.message);
-      // fallback to USD
-    }
+    let currency_code = countriesUtil.getCurrencyByCountry(country);
 
     // 3. Create Company
     const companyQuery = `

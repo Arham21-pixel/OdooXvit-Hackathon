@@ -5,9 +5,9 @@ exports.getRate = async (baseCurrency, targetCurrency) => {
     return 1;
   }
   try {
-    const url = `https://api.exchangerate-api.com/v4/latest/${baseCurrency.toUpperCase()}`;
+    const url = `https://v6.exchangerate-api.com/v6/c0acce2683978087ac3a7641/latest/${baseCurrency.toUpperCase()}`;
     const response = await axios.get(url);
-    const rates = response.data.rates;
+    const rates = response.data.conversion_rates;
     if (!rates || !rates[targetCurrency.toUpperCase()]) {
       throw new Error('Currency rate not available');
     }
