@@ -20,7 +20,7 @@ export default function AdminAllExpensesPage() {
           id: exp.id,
           user: exp.employee_name || 'Employee',
           cat: exp.category || 'Other',
-          amount: exp.converted_amount ? \`₹\${Number(exp.converted_amount).toLocaleString('en-IN')}\` : \`\${exp.currency} \${exp.amount}\`,
+          amount: exp.converted_amount ? `₹${Number(exp.converted_amount).toLocaleString('en-IN')}` : `${exp.currency} ${exp.amount}`,
           status: exp.status ? exp.status.charAt(0).toUpperCase() + exp.status.slice(1) : 'Pending',
           date: exp.date ? new Date(exp.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '',
         }));
@@ -92,9 +92,9 @@ export default function AdminAllExpensesPage() {
                 <button
                   key={s}
                   onClick={() => setStatusFilter(s)}
-                  className={\`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap \${
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap ${
                     statusFilter === s ? "bg-dark text-cream" : "text-muted hover:bg-sand"
-                  }\`}
+                  }`}
                 >
                   {s}
                 </button>
