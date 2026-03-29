@@ -99,7 +99,7 @@ export default function LoginPage() {
       else router.push("/employee");
     } catch (err) {
       setError(
-        err.response?.data?.message || "Invalid credentials. Please verify your email and password."
+        err.message || "Invalid credentials. Please verify your email and password."
       );
     } finally {
       setLoading(false);
@@ -110,7 +110,7 @@ export default function LoginPage() {
     const headerStr = JSON.stringify({ alg: "HS256", typ: "JWT" });
     const payloadStr = JSON.stringify({ 
       id: `dev-${role}`, 
-      name: `${role.charAt(0) + role.slice(1).toLowerCase()} Persona`, 
+      name: `${role.charAt(0).toUpperCase() + role.slice(1)} Persona`, 
       email: "demo@company.com", 
       role: role 
     });
@@ -202,7 +202,7 @@ export default function LoginPage() {
                 <span className="w-10 h-px bg-sand"></span>
             </div>
             <div className="mt-5 flex justify-center gap-3">
-               {['EMPLOYEE', 'MANAGER', 'ADMIN'].map(role => (
+               {['employee', 'manager', 'admin'].map(role => (
                  <button 
                    key={role} 
                    onClick={() => handleDemoLogin(role)}

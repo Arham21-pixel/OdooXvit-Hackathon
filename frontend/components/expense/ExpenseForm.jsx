@@ -108,10 +108,8 @@ export default function ExpenseForm({ parsedData }) {
       await api.post("/expenses", formData);
       router.push("/employee");
     } catch (error) {
-       // Backend mock fallback
-       setTimeout(() => {
-          router.push("/employee");
-       }, 800);
+       alert(error.message || "Failed to submit expense");
+       setLoading(false);
     }
   };
 

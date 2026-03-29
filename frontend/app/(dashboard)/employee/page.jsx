@@ -15,16 +15,26 @@ export default function EmployeeExpensesPage() {
     const fetchExpenses = async () => {
       try {
         const res = await api.get("/expenses");
-        setExpenses(res.data);
+        // Map backend fields to display fields
+        const mapped = (res.data || []).map(exp => ({
+          id: exp.id,
+          cat: exp.category || 'Other',
+          title: exp.description || 'Expense',
+          amount: exp.converted_amount ? `₹${Number(exp.converted_amount).toLocaleString('en-IN')}` : `${exp.currency} ${exp.amount}`,
+          status: exp.status ? exp.status.charAt(0).toUpperCase() + exp.status.slice(1) : 'Pending',
+          date: exp.date ? new Date(exp.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '',
+          daysAgo: exp.created_at ? Math.max(0, Math.floor((Date.now() - new Date(exp.created_at)) / 86400000)) : 0,
+        }));
+        setExpenses(mapped);
+        setLoading(false);
       } catch (error) {
-        // Mock fallback wrapper
+        // Mock fallback
         setTimeout(() => {
           setExpenses([
             { id: 1, cat: "Travel", title: "Flights to NYC HQ", amount: "₹45,000", status: "Approved", date: "Oct 24, 2026", daysAgo: 2 },
             { id: 2, cat: "Meals", title: "Client Dinner with Acme Corp", amount: "₹8,200", status: "Pending", date: "Oct 23, 2026", daysAgo: 3 },
             { id: 3, cat: "Accommodation", title: "Marriott Downtown 2 Nights", amount: "₹1,20,000", status: "Pending", date: "Oct 22, 2026", daysAgo: 4 },
             { id: 4, cat: "Office Supplies", title: "Mechanical Keyboard", amount: "₹12,500", status: "Rejected", date: "Oct 15, 2026", daysAgo: 11 },
-            { id: 5, cat: "Travel", title: "Uber to Airport", amount: "₹2,400", status: "Approved", date: "Oct 10, 2026", daysAgo: 16 },
           ]);
           setLoading(false);
         }, 600);

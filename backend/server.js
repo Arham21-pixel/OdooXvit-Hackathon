@@ -10,8 +10,11 @@ const app = express();
 // Body parser
 app.use(express.json());
 
-// Enable CORS
-app.use(cors());
+// Enable CORS for frontend
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  credentials: true,
+}));
 
 // Mount routers (placeholders for now until you build them)
 app.use('/api/auth', require('./routes/auth.routes') || express.Router());

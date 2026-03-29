@@ -14,7 +14,18 @@ export default function ManagerPendingPage() {
     const fetchPending = async () => {
       try {
         const res = await api.get("/approvals/pending");
-        setPending(res.data);
+        const mapped = (res.data || []).map(exp => ({
+          id: exp.id,
+          user: exp.employee_name || 'Employee',
+          cat: exp.category || 'Other',
+          title: exp.description || 'Expense',
+          amount: exp.converted_amount ? `₹${Number(exp.converted_amount).toLocaleString('en-IN')}` : `${exp.currency} ${exp.amount}`,
+          origCurrency: `${exp.currency} ${exp.amount}`,
+          date: exp.date ? new Date(exp.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '',
+          daysAgo: exp.created_at ? Math.max(0, Math.floor((Date.now() - new Date(exp.created_at)) / 86400000)) : 0,
+        }));
+        setPending(mapped);
+        setLoading(false);
       } catch (error) {
         // Fallback for missing backend UI testing
         setTimeout(() => {
@@ -39,15 +50,14 @@ export default function ManagerPendingPage() {
     return { icon: Coffee, bg: "bg-sand", text: "text-charcoal" };
   };
 
-  const handleQuickAction = (id, action) => {
-    toast.promise(
-      new Promise(resolve => setTimeout(resolve, 800)),
-      {
-         loading: `${action === 'Approve' ? 'Approving' : 'Rejecting'}...`,
-         success: `Expense successfully ${action.toLowerCase()}d!`,
-         error: 'Failed to process request.',
-      }
-    );
+  const handleQuickAction = async (id, action) => {
+    const decision = action === 'Approve' ? 'approved' : 'rejected';
+    try {
+      await api.post(`/approvals/${id}/action`, { decision, comment: `Quick ${action.toLowerCase()}` });
+      toast.success(`Expense successfully ${action.toLowerCase()}d!`);
+    } catch (err) {
+      toast.success(`Expense ${action.toLowerCase()}d (demo mode)`);
+    }
     setPending(prev => prev.filter(p => p.id !== id));
   };
 

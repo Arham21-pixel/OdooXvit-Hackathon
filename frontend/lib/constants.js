@@ -1,19 +1,20 @@
-export const ROLES = {
-  ADMIN: 'ADMIN',
-  MANAGER: 'MANAGER',
-  EMPLOYEE: 'EMPLOYEE',
+﻿export const ROLES = {
+  ADMIN: 'admin',
+  MANAGER: 'manager',
+  EMPLOYEE: 'employee',
 };
 
 export const EXPENSE_CATEGORIES = [
   'Travel',
   'Meals',
-  'Supplies',
-  'Software',
+  'Accommodation',
+  'Office Supplies',
+  'Medical',
   'Other',
 ];
 
 export const EXPENSE_STATUSES = {
-  PENDING: { label: 'Pending', color: 'warning' },
-  APPROVED: { label: 'Approved', color: 'success' },
-  REJECTED: { label: 'Rejected', color: 'danger' },
+  pending: { label: 'Pending', color: 'warning' },
+  approved: { label: 'Approved', color: 'success' },
+  rejected: { label: 'Rejected', color: 'danger' },
 };

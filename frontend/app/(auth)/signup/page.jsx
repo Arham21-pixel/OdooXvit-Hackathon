@@ -82,20 +82,7 @@ export default function SignupPage() {
       else if (decoded.role === ROLES.MANAGER) router.push("/manager");
       else router.push("/employee");
     } catch (err) {
-      // Mock Fallback since backend is missing during dev
-      setTimeout(() => {
-        const headerStr = JSON.stringify({ alg: "HS256", typ: "JWT" });
-        const payloadStr = JSON.stringify({ 
-          id: `dev-EMPLOYEE`, 
-          name: formData.name, 
-          email: formData.email, 
-          role: "EMPLOYEE" 
-        });
-        const toSafeB64 = (str) => btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-        const fakeToken = `${toSafeB64(headerStr)}.${toSafeB64(payloadStr)}.mock_signature`;
-        login(fakeToken);
-        router.push("/employee");
-      }, 1000);
+      setError(err.message || "Signup failed. Please try again.");
     }
   };
 

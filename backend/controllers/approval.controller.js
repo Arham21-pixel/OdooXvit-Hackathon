@@ -62,7 +62,7 @@ exports.actionApproval = async (req, res) => {
 
     await approvalEngine.processApproval(expenseId, approverId, decision, comment);
 
-    return sendSuccess(res, { message: \`Expense \${decision} successfully\` });
+    return sendSuccess(res, { message: 'Expense ' + decision + ' successfully' });
   } catch (err) {
     console.error('actionApproval error:', err);
     return sendError(res, err.message || 'Server error processing approval', 500);

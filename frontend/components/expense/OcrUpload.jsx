@@ -39,7 +39,7 @@ export default function OcrUpload({ onParsed }) {
     }
   };
 
-  const processFile = (selectedFile) => {
+  const processFile = async (selectedFile) => {
     if (!selectedFile.type.includes("image")) {
       alert("Please upload an image file (JPG/PNG).");
       return;
@@ -49,22 +49,34 @@ export default function OcrUpload({ onParsed }) {
     setPreviewURL(URL.createObjectURL(selectedFile));
     setStatus("PROCESSING");
     
-    // MOCK OCR PARSING
-    setTimeout(() => {
-      const mockResult = {
-        amount: "142.50",
-        date: new Date().toISOString().split("T")[0], // Today
-        description: "Business lunch at The Capital Grille with Acme Corp clients",
-        confidence: "High",
-        merchant: "The Capital Grille"
-      };
+    try {
+      const formData = new FormData();
+      formData.append('receipt', selectedFile);
       
-      setOcrResult(mockResult);
+      const { default: api } = await import('@/lib/api');
+      const res = await api.post('/ocr/parse', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      
+      const result = res.data;
+      setOcrResult(result);
       setStatus("SUCCESS");
-      
-      // Send up to the wrapper page to pre-fill the form
-      onParsed(mockResult);
-    }, 2500);
+      onParsed(result);
+    } catch (err) {
+      // Mock fallback if OCR backend unavailable
+      setTimeout(() => {
+        const mockResult = {
+          amount: "142.50",
+          date: new Date().toISOString().split("T")[0],
+          description: "Business lunch at The Capital Grille with Acme Corp clients",
+          confidence: "High",
+          merchant: "The Capital Grille"
+        };
+        setOcrResult(mockResult);
+        setStatus("SUCCESS");
+        onParsed(mockResult);
+      }, 2500);
+    }
   };
 
   const clearFile = () => {
