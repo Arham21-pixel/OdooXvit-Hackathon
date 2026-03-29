@@ -28,19 +28,17 @@ export default function AdminUsersPage() {
     const fetchUsers = async () => {
       try {
         const res = await api.get("/users");
-        setUsers(res.data);
+        const mappedUsers = res.data.map(u => ({
+          ...u,
+          role: u.role.toUpperCase(),
+          managerId: u.manager_id,
+          reportsTo: u.manager_id ? 'Assigned' : null, // Would ideally look up manager name
+          isApprover: u.is_manager_approver
+        }));
+        setUsers(mappedUsers);
       } catch (error) {
-        // Fallback for missing backend during dev
-        setTimeout(() => {
-          setUsers([
-            { id: 1, name: "Michael", email: "michael@company.com", role: "ADMIN", isApprover: true },
-            { id: 2, name: "Chidi Anagonye", email: "chidi.a@company.com", role: "MANAGER", reportsTo: "Michael", isApprover: true },
-            { id: 3, name: "Eleanor Shellstrop", email: "eshellstrop@company.com", role: "EMPLOYEE", reportsTo: "Chidi Anagonye" },
-            { id: 4, name: "Tahani Al-Jamil", email: "tahani@company.com", role: "EMPLOYEE", reportsTo: "Chidi Anagonye" },
-            { id: 5, name: "Jason Mendoza", email: "jason.dj@company.com", role: "EMPLOYEE", reportsTo: "Chidi Anagonye" }
-          ]);
-          setLoading(false);
-        }, 600);
+        setUsers([]);
+        setLoading(false);
       }
     };
     fetchUsers();
@@ -53,9 +51,16 @@ export default function AdminUsersPage() {
       return;
     }
 
+    const payload = {
+      ...formData,
+      role: formData.role.toLowerCase(),
+      manager_id: formData.managerId || null,
+      is_manager_approver: formData.isApprover,
+    };
+
     setSaving(true);
     toast.promise(
-      api.post("/users", formData).catch(() => new Promise((resolve) => setTimeout(resolve, 800))),
+      api.post("/users", payload),
       {
         loading: 'Provisioning new identity...',
         success: 'Team member successfully established!',

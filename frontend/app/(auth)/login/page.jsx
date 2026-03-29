@@ -106,23 +106,7 @@ export default function LoginPage() {
     }
   };
 
-  const handleDemoLogin = (role) => {
-    const headerStr = JSON.stringify({ alg: "HS256", typ: "JWT" });
-    const payloadStr = JSON.stringify({ 
-      id: `dev-${role}`, 
-      name: `${role.charAt(0).toUpperCase() + role.slice(1)} Persona`, 
-      email: "demo@company.com", 
-      role: role 
-    });
-    const toSafeB64 = (str) => btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-    const fakeToken = `${toSafeB64(headerStr)}.${toSafeB64(payloadStr)}.mock_signature`;
-    
-    login(fakeToken);
-    
-    if (role === ROLES.ADMIN) router.push("/admin");
-    else if (role === ROLES.MANAGER) router.push("/manager");
-    else router.push("/employee");
-  };
+
 
   return (
     <div className="min-h-screen flex bg-cream">
@@ -195,26 +179,6 @@ export default function LoginPage() {
               </Link>
             </p>
 
-            {/* DEMO BYPASS */}
-            <div className="mt-10 flex items-center justify-center gap-4 text-xs font-semibold text-muted/50 uppercase tracking-widest">
-                <span className="w-10 h-px bg-sand"></span>
-                Demo Bypass
-                <span className="w-10 h-px bg-sand"></span>
-            </div>
-            <div className="mt-5 flex justify-center gap-3">
-               {['employee', 'manager', 'admin'].map(role => (
-                 <button 
-                   key={role} 
-                   onClick={() => handleDemoLogin(role)}
-                   className="w-10 h-10 rounded-full bg-white border border-sand shadow-sm text-xs font-bold text-charcoal flex items-center justify-center hover:bg-sand transition-colors group relative"
-                 >
-                   {role.charAt(0)}
-                   <span className="absolute -top-10 scale-0 group-hover:scale-100 transition-transform bg-dark text-cream px-3 py-1.5 rounded-xl text-xs whitespace-nowrap hidden sm:block">
-                     {role} View
-                   </span>
-                 </button>
-               ))}
-            </div>
           </div>
 
         </div>

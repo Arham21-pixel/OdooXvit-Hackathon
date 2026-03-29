@@ -52,11 +52,12 @@ export default function ExpenseForm({ parsedData }) {
         
         const map = new Map();
         data.forEach(country => {
-          if (country.currencies) {
+          if (country.currencies && Object.keys(country.currencies).length > 0) {
             const code = Object.keys(country.currencies)[0];
-            const flag = country.flags?.emoji || "🌐";
-            if (!map.has(code)) {
-              map.set(code, { code, name: country.currencies[code].name, flag });
+            const currencyObj = country.currencies[code];
+            const flag = (country.flags && country.flags.emoji) ? country.flags.emoji : "🌐";
+            if (code && currencyObj && !map.has(code)) {
+              map.set(code, { code, name: currencyObj.name || code, flag });
             }
           }
         });
